@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Floyd D'Souza · Propulsion Test &amp; Systems Engineering</title>
+<meta name="description" content="Floyd D'Souza, MSc Space Engineering. Propulsion test and systems engineering: combustion modeling, test-stand hardware, satellite systems. Munich.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..800&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0C1116;
+  --panel:#10161D;
+  --panel-2:#0A0F14;
+  --tx:#E8EDF0;
+  --tx-2:#94A1A9;
+  --line:#1E2932;
+  --line-strong:#2E3B45;
+  --blue:#4C82F0;
+  --blue-text:#8FB0FF;
+  --blue-tint:#132340;
+  --flame:#F0782E;
+  --flame-bright:#F26A21;
+  --flame-tint:#31170B;
+  --mono:'IBM Plex Mono',ui-monospace,'SF Mono',Menlo,monospace;
+  --sans:'Archivo',system-ui,-apple-system,sans-serif;
+  --maxw:1120px;
+  --rad:6px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+body{
+  font-family:var(--sans);
+  background:var(--bg);
+  color:var(--tx);
+  font-size:17px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+::selection{background:var(--blue);color:#fff}
+a{color:inherit;text-decoration:none}
+a:focus-visible,button:focus-visible{outline:2px solid var(--blue-text);outline-offset:3px;border-radius:2px}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px}
+.mono{font-family:var(--mono)}
+
+/* ---------- header ---------- */
+header{
+  position:sticky;top:0;z-index:40;
+  background:rgba(12,17,22,.87);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+}
+.hd{display:flex;align-items:center;justify-content:space-between;height:60px}
+.hd .name{font-family:var(--mono);font-weight:600;font-size:.82rem;letter-spacing:.14em;color:var(--tx)}
+.hd nav{display:flex;gap:26px}
+.hd nav a{font-family:var(--mono);font-size:.74rem;letter-spacing:.1em;color:var(--tx-2);transition:color .15s}
+.hd nav a:hover{color:var(--blue-text)}
+@media(max-width:760px){.hd nav{display:none}}
+
+/* ---------- hero ---------- */
+.hero{padding:96px 0 0}
+.eyebrow{
+  font-family:var(--mono);font-size:.72rem;font-weight:500;
+  letter-spacing:.18em;color:var(--blue-text);text-transform:uppercase;
+}
+h1{
+  font-weight:750;font-stretch:116%;
+  font-size:clamp(2.5rem,6vw,4.4rem);
+  line-height:1.02;letter-spacing:-.025em;
+  margin:18px 0 22px;max-width:15ch;color:#fff;
+}
+.hero .lede{max-width:58ch;color:var(--tx-2);font-size:1.09rem}
+.hero .lede strong{color:var(--tx);font-weight:600}
+.cta-row{display:flex;gap:14px;margin-top:34px;flex-wrap:wrap}
+.btn{
+  display:inline-flex;align-items:center;gap:9px;
+  font-family:var(--mono);font-size:.8rem;font-weight:500;letter-spacing:.06em;
+  padding:13px 22px;border-radius:var(--rad);
+  border:1px solid var(--tx);transition:all .15s;
+}
+.btn.solid{background:var(--tx);color:var(--bg)}
+.btn.solid:hover{background:var(--blue);border-color:var(--blue);color:#fff}
+.btn.ghost{background:transparent;color:var(--tx)}
+.btn.ghost:hover{border-color:var(--blue);color:var(--blue-text)}
+
+/* readout strip */
+.readouts{
+  margin-top:72px;border-top:1px solid var(--line-strong);border-bottom:1px solid var(--line-strong);
+  display:grid;grid-template-columns:repeat(4,1fr);
+}
+.ch{padding:24px 26px 26px;border-right:1px solid var(--line)}
+.ch:last-child{border-right:none}
+.ch .tag{font-family:var(--mono);font-size:.64rem;letter-spacing:.14em;color:var(--tx-2)}
+.ch .val{
+  font-family:var(--mono);font-weight:600;
+  font-size:clamp(1.7rem,3.2vw,2.4rem);line-height:1.15;margin-top:10px;
+  font-variant-numeric:tabular-nums;color:var(--tx);
+}
+.ch .val .unit{font-size:.5em;font-weight:500;color:var(--tx-2);margin-left:4px}
+.ch .note{font-size:.78rem;color:var(--tx-2);margin-top:6px}
+.ch.hot .val{color:var(--flame)}
+@media(max-width:820px){.readouts{grid-template-columns:1fr 1fr}.ch:nth-child(2){border-right:none}.ch:nth-child(1),.ch:nth-child(2){border-bottom:1px solid var(--line)}}
+@media(max-width:430px){.readouts{grid-template-columns:1fr}.ch{border-right:none;border-bottom:1px solid var(--line)}.ch:last-child{border-bottom:none}}
+.readout-cap{font-family:var(--mono);font-size:.7rem;color:var(--tx-2);letter-spacing:.06em;padding:12px 2px 0}
+
+/* ---------- sections ---------- */
+section{padding:104px 0}
+.sec-head{margin-bottom:44px}
+h2{
+  font-weight:720;font-stretch:112%;
+  font-size:clamp(1.7rem,3.6vw,2.5rem);
+  letter-spacing:-.02em;line-height:1.12;margin-top:14px;max-width:24ch;color:#fff;
+}
+.sec-head p{color:var(--tx-2);max-width:62ch;margin-top:14px}
+
+/* featured (raised band) */
+.band{background:var(--panel);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.meta-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.chip{
+  font-family:var(--mono);font-size:.68rem;letter-spacing:.08em;
+  border:1px solid var(--line-strong);border-radius:999px;
+  padding:6px 13px;color:var(--tx-2);background:var(--bg);
+}
+.chip.blue{border-color:var(--blue);color:var(--blue-text);background:var(--blue-tint)}
+
+.problem{max-width:70ch;font-size:1.05rem;color:var(--tx);margin-top:36px}
+.problem em{font-style:normal;background:linear-gradient(transparent 60%,var(--flame-tint) 60%)}
+
+/* schematic figure */
+figure.schem{
+  margin:52px 0 0;border:1px solid var(--line-strong);border-radius:var(--rad);
+  background:var(--panel-2);padding:26px 18px 14px;overflow:hidden;
+}
+figure.schem svg{width:100%;height:auto;display:block}
+figcaption{
+  font-family:var(--mono);font-size:.72rem;color:var(--tx-2);
+  padding:14px 8px 4px;letter-spacing:.03em;line-height:1.7;
+}
+@media(max-width:700px){
+  figure.schem{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  figure.schem svg{min-width:760px}
+}
+.schem .part{transition:opacity .15s}
+.schem svg:hover .part{opacity:.4}
+.schem svg .part:hover{opacity:1}
+@media (hover:none){.schem svg:hover .part{opacity:1}}
+
+/* solution grid */
+.sol-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:52px}
+@media(max-width:820px){.sol-grid{grid-template-columns:1fr}}
+.sol{
+  background:var(--bg);border:1px solid var(--line);border-radius:var(--rad);
+  padding:28px 28px 26px;
+}
+.sol .k{font-family:var(--mono);font-size:.66rem;letter-spacing:.16em;color:var(--blue-text);text-transform:uppercase}
+.sol h3{font-weight:680;font-stretch:108%;font-size:1.22rem;margin:10px 0 12px;letter-spacing:-.01em;color:#fff}
+.sol p{font-size:.94rem;color:var(--tx-2)}
+.sol p b{color:var(--tx);font-weight:600}
+.sol .figs{display:flex;gap:22px;margin-top:18px;flex-wrap:wrap}
+.sol .fig .n{font-family:var(--mono);font-weight:600;font-size:1.25rem;font-variant-numeric:tabular-nums;color:var(--tx)}
+.sol .fig .l{font-family:var(--mono);font-size:.63rem;letter-spacing:.08em;color:var(--tx-2);text-transform:uppercase;margin-top:2px}
+.sol .fig.hot .n{color:var(--flame)}
+.sol .fig.cool .n{color:var(--blue-text)}
+.thermbar{margin-top:20px;width:100%}
+.thermbar svg{width:100%;height:auto;display:block}
+
+/* requirement card */
+.reqcard{
+  margin-top:52px;border:1px solid var(--line-strong);border-radius:var(--rad);
+  overflow:hidden;background:var(--panel-2);
+}
+.reqcard .rc-head{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:16px 24px;background:var(--tx);color:var(--bg);
+  font-family:var(--mono);font-size:.7rem;letter-spacing:.16em;font-weight:600;
+}
+.req{
+  display:grid;grid-template-columns:112px 1fr 1fr 190px;gap:20px;align-items:center;
+  padding:20px 24px;border-bottom:1px solid var(--line);
+}
+.req:last-child{border-bottom:none}
+.req .id{font-family:var(--mono);font-weight:600;font-size:.82rem;color:var(--tx-2)}
+.req .what{font-weight:600;font-size:.95rem;letter-spacing:-.005em;color:var(--tx)}
+.req .how{font-size:.86rem;color:var(--tx-2)}
+.pill{
+  font-family:var(--mono);font-size:.66rem;font-weight:600;letter-spacing:.1em;
+  padding:7px 12px;border-radius:999px;text-align:center;justify-self:end;white-space:nowrap;
+}
+.pill.closed{background:var(--blue-tint);color:#A9C4FF;border:1px solid var(--blue)}
+.pill.partial{background:var(--flame-tint);color:#FFAB77;border:1px solid var(--flame-bright)}
+@media(max-width:860px){
+  .req{grid-template-columns:1fr;gap:8px}
+  .pill{justify-self:start}
+}
+.next-line{
+  margin-top:26px;font-family:var(--mono);font-size:.78rem;line-height:1.9;
+  color:var(--tx-2);letter-spacing:.02em;max-width:80ch;
+}
+.next-line b{color:var(--tx)}
+
+/* ---------- projects ---------- */
+.proj-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+@media(max-width:820px){.proj-grid{grid-template-columns:1fr}}
+.proj{
+  background:var(--panel);border:1px solid var(--line);border-radius:var(--rad);
+  padding:28px;display:flex;flex-direction:column;transition:border-color .15s, transform .15s;
+}
+.proj:hover{border-color:var(--blue);transform:translateY(-3px)}
+.proj .repo{font-family:var(--mono);font-size:.68rem;color:var(--tx-2);letter-spacing:.04em}
+.proj h3{font-weight:680;font-stretch:108%;font-size:1.28rem;margin:12px 0 10px;letter-spacing:-.01em;color:#fff}
+.proj p{font-size:.92rem;color:var(--tx-2);flex:1}
+.proj .tags{display:flex;flex-wrap:wrap;gap:8px;margin:20px 0 18px}
+.proj .tags span{
+  font-family:var(--mono);font-size:.62rem;letter-spacing:.06em;
+  border:1px solid var(--line-strong);border-radius:3px;padding:4px 8px;color:var(--tx-2);
+}
+.proj .link{
+  font-family:var(--mono);font-size:.74rem;font-weight:500;color:var(--blue-text);
+  display:inline-flex;align-items:center;gap:7px;
+}
+.proj:hover .link{color:var(--blue)}
+.proj .nolink{font-family:var(--mono);font-size:.74rem;color:var(--tx-2)}
+
+/* ---------- experience ---------- */
+.xp{border-top:1px solid var(--line-strong)}
+.xp-row{
+  display:grid;grid-template-columns:290px 1fr 180px;gap:24px;align-items:baseline;
+  padding:26px 4px;border-bottom:1px solid var(--line);
+}
+.xp-row .org{font-weight:680;font-stretch:108%;font-size:1.12rem;letter-spacing:-.01em;color:var(--tx)}
+.xp-row .org .sub{
+  display:block;font-family:var(--mono);font-weight:500;font-size:.63rem;
+  letter-spacing:.12em;color:var(--blue-text);text-transform:uppercase;margin-top:6px;
+}
+.xp-row .desc{color:var(--tx-2);font-size:.92rem}
+.xp-row .when{
+  font-family:var(--mono);font-size:.66rem;letter-spacing:.08em;color:var(--tx-2);
+  text-transform:uppercase;text-align:right;line-height:2;
+}
+@media(max-width:860px){
+  .xp-row{grid-template-columns:1fr;gap:8px}
+  .xp-row .when{text-align:left}
+}
+.edu-k{
+  font-family:var(--mono);font-size:.72rem;font-weight:600;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--tx);margin:56px 0 0;
+}
+
+/* ---------- capabilities ---------- */
+.cap-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:40px}
+@media(max-width:900px){.cap-grid{grid-template-columns:1fr;gap:32px}}
+.cap h3{
+  font-family:var(--mono);font-size:.72rem;font-weight:600;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--tx);padding-bottom:14px;border-bottom:1px solid var(--tx);
+  margin-bottom:18px;
+}
+.cap ul{list-style:none}
+.cap li{
+  font-size:.92rem;color:var(--tx-2);padding:7px 0;
+  border-bottom:1px dashed var(--line);
+}
+.cap li:last-child{border-bottom:none}
+
+/* ---------- beyond ---------- */
+.beyond{padding:0 0 104px}
+.beyond .inner{
+  border:1px solid var(--line-strong);border-radius:var(--rad);background:var(--panel);
+  padding:30px 34px;display:flex;gap:28px;align-items:baseline;flex-wrap:wrap;
+}
+.beyond .k{font-family:var(--mono);font-size:.66rem;letter-spacing:.16em;color:var(--blue-text);text-transform:uppercase;white-space:nowrap}
+.beyond p{color:var(--tx-2);font-size:.95rem;max-width:72ch}
+
+/* ---------- contact ---------- */
+.contact{background:#080C10;border-top:1px solid var(--line-strong);padding:110px 0}
+.contact h2{max-width:20ch}
+.contact p{color:var(--tx-2);max-width:56ch;margin-top:16px}
+.contact .cta-row{margin-top:38px}
+.contact .btn.solid:hover{background:var(--flame-bright);border-color:var(--flame-bright);color:#fff}
+.contact .btn.ghost:hover{border-color:var(--flame-bright);color:var(--flame)}
+footer{background:#080C10;border-top:1px solid var(--line);padding:26px 0}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+footer span{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;color:#5E6B74}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease}
+.rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion: reduce){.rv{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap hd">
+    <a class="name" href="#top">FLOYD D'SOUZA</a>
+    <nav aria-label="Sections">
+      <a href="#work">THESIS</a>
+      <a href="#projects">PROJECTS</a>
+      <a href="#experience">EXPERIENCE</a>
+      <a href="#capabilities">CAPABILITIES</a>
+      <a href="#contact">CONTACT</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- ================= HERO ================= -->
+<div class="hero wrap">
+  <p class="eyebrow">Propulsion · Test · Systems Engineering · Munich</p>
+  <h1>First principles to released hardware.</h1>
+  <p class="lede">I'm <strong>Floyd D'Souza</strong>, an MSc Space Engineering student at <strong>TU Berlin</strong>, writing my thesis at <strong>TUM's Chair of Space Mobility and Propulsion</strong> in Munich. I model combustion and flow from conservation laws, carry the result through CAD and fabrication, and prove it on the test stand.</p>
+  <div class="cta-row">
+    <a class="btn solid" href="#work">See the thesis work</a>
+    <a class="btn ghost" href="https://github.com/floyd1009" target="_blank" rel="noopener">GitHub ↗</a>
+  </div>
+
+  <div class="readouts" aria-label="Key design values from thesis">
+    <div class="ch">
+      <div class="tag">CH-01 · FUEL FLOW</div>
+      <div class="val"><span data-count="400">400</span><span class="unit">g/s</span></div>
+      <div class="note">full methane test load</div>
+    </div>
+    <div class="ch hot">
+      <div class="tag">CH-02 · PRODUCT GAS</div>
+      <div class="val"><span data-count="2178">2178</span><span class="unit">K</span></div>
+      <div class="note">Cantera equilibrium, GRI-Mech 3.0</div>
+    </div>
+    <div class="ch">
+      <div class="tag">CH-03 · AIR SUPPLY</div>
+      <div class="val"><span data-count="106">106</span><span class="unit">% stoich</span></div>
+      <div class="note">entrained passively, no fans</div>
+    </div>
+    <div class="ch">
+      <div class="tag">CH-04 · THERMAL MARGIN</div>
+      <div class="val"><span data-count="2.0" data-dec="1">2.0</span><span class="unit">×</span></div>
+      <div class="note">against the 800 K wall limit</div>
+    </div>
+  </div>
+  <p class="readout-cap">DESIGN VALUES · MSC THESIS · FLAME CONTAINMENT FOR A ROCKET PROPULSION TEST BENCH</p>
+</div>
+
+<!-- ================= THESIS ================= -->
+<section id="work" class="band">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <p class="eyebrow">Featured work · MSc thesis · TUM Chair of Space Mobility and Propulsion</p>
+      <h2>A flame containment system for methane flaring at 400 g/s</h2>
+      <div class="meta-row">
+        <span class="chip blue">Design review passed · July 2026</span>
+        <span class="chip blue">Fabrication released</span>
+        <span class="chip">Oberpfaffenhofen test facility</span>
+        <span class="chip">Commissioning · Jul–Aug 2026</span>
+        <span class="chip">Thesis submission · Sept 2026</span>
+      </div>
+    </div>
+
+    <p class="problem rv">On a rocket propulsion test bench, methane must be flared safely inside an enclosed building. Burned methane is roughly eight times lighter than air, so buoyancy lifts the flame off its axis and drives it into the structure above. Damage begins at 80 g/s. The full test load is 400 g/s: <em>200 MJ released in a single 10-second shot</em>, with ambient air only and no supplementary oxygen. My thesis is the device that keeps that flame on the axis.</p>
+
+    <!-- signature: duct schematic -->
+    <figure class="schem rv" aria-label="Cross-section schematic of the convergent flame containment duct">
+      <svg viewBox="0 0 960 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="schemTitle">
+        <title id="schemTitle">Convergent flame containment duct: methane injector, entrained air, film-cooled walls, flame held on axis</title>
+        <defs>
+          <linearGradient id="flameGrad" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stop-color="#2E63F0"/>
+            <stop offset="0.35" stop-color="#4A7BF5"/>
+            <stop offset="0.75" stop-color="#F28C3C"/>
+            <stop offset="1" stop-color="#F26A21"/>
+          </linearGradient>
+          <marker id="arrB" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" fill="#5B8DEF"/>
+          </marker>
+          <marker id="arrL" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" fill="#E8EDF0"/>
+          </marker>
+        </defs>
+
+        <!-- centerline -->
+        <line x1="30" y1="205" x2="930" y2="205" stroke="#37434C" stroke-width="1" stroke-dasharray="7 6"/>
+        <text x="34" y="197" font-family="IBM Plex Mono,monospace" font-size="10" fill="#5E6B74">axis</text>
+
+        <!-- flame (under walls) with its label inside -->
+        <g class="part">
+          <path d="M 262 205
+                   C 330 160, 480 138, 640 158
+                   C 740 172, 800 192, 828 205
+                   C 800 218, 740 238, 640 252
+                   C 480 272, 330 250, 262 205 Z"
+                fill="url(#flameGrad)" opacity="0.85"/>
+          <text x="380" y="209" font-family="IBM Plex Mono,monospace" font-size="11" fill="#FFFFFF" stroke="#0C1116" stroke-width="3" paint-order="stroke" stroke-linejoin="round">flame held on axis · Ri ≈ 0.001</text>
+        </g>
+
+        <!-- methane pipe + label -->
+        <g class="part">
+          <rect x="40" y="190" width="140" height="30" fill="none" stroke="#E8EDF0" stroke-width="2.5"/>
+          <line x1="60" y1="205" x2="118" y2="205" stroke="#E8EDF0" stroke-width="2" marker-end="url(#arrL)"/>
+          <text x="40" y="178" font-family="IBM Plex Mono,monospace" font-size="11" fill="#E8EDF0">CH₄ · 400 g/s</text>
+        </g>
+
+        <!-- injector head -->
+        <g class="part">
+          <rect x="182" y="158" width="16" height="94" fill="#0C1116" stroke="#E8EDF0" stroke-width="2.5"/>
+          <circle cx="190" cy="175" r="2.6" fill="#E8EDF0"/>
+          <circle cx="190" cy="190" r="2.6" fill="#E8EDF0"/>
+          <circle cx="190" cy="205" r="2.6" fill="#E8EDF0"/>
+          <circle cx="190" cy="220" r="2.6" fill="#E8EDF0"/>
+          <circle cx="190" cy="235" r="2.6" fill="#E8EDF0"/>
+          <text x="78" y="128" font-family="IBM Plex Mono,monospace" font-size="11" fill="#E8EDF0">19-port injector</text>
+          <line x1="168" y1="134" x2="184" y2="155" stroke="#5E6B74" stroke-width="1"/>
+        </g>
+
+        <!-- duct walls (convergent) -->
+        <g class="part">
+          <path d="M262 108 L830 126" stroke="#E8EDF0" stroke-width="5" fill="none"/>
+          <path d="M262 302 L830 284" stroke="#E8EDF0" stroke-width="5" fill="none"/>
+          <!-- film-cooling slot ticks -->
+          <g stroke="#5B8DEF" stroke-width="1.8">
+            <line x1="330" y1="102" x2="342" y2="120"/><line x1="410" y1="105" x2="422" y2="123"/>
+            <line x1="490" y1="107" x2="502" y2="125"/><line x1="570" y1="110" x2="582" y2="128"/>
+            <line x1="650" y1="112" x2="662" y2="130"/><line x1="730" y1="115" x2="742" y2="133"/>
+            <line x1="330" y1="308" x2="342" y2="290"/><line x1="410" y1="305" x2="422" y2="287"/>
+            <line x1="490" y1="303" x2="502" y2="285"/><line x1="570" y1="300" x2="582" y2="282"/>
+            <line x1="650" y1="298" x2="662" y2="280"/><line x1="730" y1="295" x2="742" y2="277"/>
+          </g>
+          <text x="330" y="80" font-family="IBM Plex Mono,monospace" font-size="11" fill="#8FB0FF">238 Ø8 mm slots · air in, film cools the wall</text>
+          <line x1="352" y1="86" x2="336" y2="100" stroke="#5E6B74" stroke-width="1"/>
+        </g>
+
+        <!-- entrained air arrows into the inlet annulus -->
+        <g class="part">
+          <path d="M120 62 C 195 70, 238 100, 256 138" fill="none" stroke="#5B8DEF" stroke-width="3" marker-end="url(#arrB)"/>
+          <path d="M120 348 C 195 340, 238 310, 256 272" fill="none" stroke="#5B8DEF" stroke-width="3" marker-end="url(#arrB)"/>
+          <text x="40" y="52" font-family="IBM Plex Mono,monospace" font-size="11" fill="#8FB0FF">ambient air · 7.3 kg/s, entrained passively</text>
+        </g>
+
+        <!-- interior pressure label (clear band between flame top and wall) -->
+        <g class="part">
+          <text x="640" y="148" font-family="IBM Plex Mono,monospace" font-size="10.5" fill="#9FB0BA">interior ≈ 920 Pa below ambient</text>
+        </g>
+
+        <!-- exit -->
+        <g class="part">
+          <line x1="840" y1="205" x2="906" y2="205" stroke="#E8EDF0" stroke-width="2.5" marker-end="url(#arrL)"/>
+          <text x="930" y="252" text-anchor="end" font-family="IBM Plex Mono,monospace" font-size="11" fill="#E8EDF0">to silencer / water quench</text>
+          <line x1="898" y1="242" x2="892" y2="214" stroke="#5E6B74" stroke-width="1"/>
+        </g>
+
+        <!-- dimension line, below everything -->
+        <g class="part" font-family="IBM Plex Mono,monospace" font-size="10.5" fill="#94A1A9">
+          <line x1="262" y1="306" x2="262" y2="352" stroke="#45525C" stroke-width="1"/>
+          <line x1="830" y1="288" x2="830" y2="352" stroke="#45525C" stroke-width="1"/>
+          <line x1="262" y1="352" x2="830" y2="352" stroke="#5E6B74" stroke-width="1"/>
+          <line x1="262" y1="347" x2="262" y2="357" stroke="#5E6B74" stroke-width="1"/>
+          <line x1="830" y1="347" x2="830" y2="357" stroke="#5E6B74" stroke-width="1"/>
+          <text x="546" y="378" text-anchor="middle">Ø 0.460 m → Ø 0.423 m · L 1.70 m · 5 mm S235JR · 92.5 kg</text>
+        </g>
+      </svg>
+      <figcaption>FIG. 1 · Convergent containment duct, section view. Low-density combustion products accelerate through the convergence, the interior pressure drops below ambient, and that suction pulls the air the flame needs through the inlet face and 238 wall slots. Every hole is an air inlet, so the flame cannot leave where air enters.</figcaption>
+    </figure>
+
+    <!-- solution grid -->
+    <div class="sol-grid">
+      <div class="sol rv">
+        <div class="k">01 · Passive air supply</div>
+        <h3>Five conservation laws, no correlations</h3>
+        <p>A bare methane jet entrains only <b>76%</b> of the <b>6.86 kg/s</b> of air the combustion demands. The convergent duct closes the gap: a five-equation control-volume model (mass, momentum, energy) solved as a <b>520-point MATLAB sweep</b>, then extended to compressible flow when the silencer interface pushed exit Mach to 0.39, with the ~7% density error quantified and accepted.</p>
+        <div class="figs">
+          <div class="fig cool"><div class="n">106%</div><div class="l">stoich air, passive</div></div>
+          <div class="fig"><div class="n">φ 0.94</div><div class="l">lean by design</div></div>
+          <div class="fig"><div class="n">Ma 0.39</div><div class="l">exit, compressible</div></div>
+        </div>
+      </div>
+
+      <div class="sol rv">
+        <div class="k">02 · Combustion state</div>
+        <h3>Equilibrium chemistry, done honestly</h3>
+        <p>Product gas resolved with <b>Cantera and GRI-Mech 3.0</b> (53 species) at constant enthalpy and pressure: <b>2178 K</b>, below the naive complete-combustion estimate because dissociation absorbs enthalpy. That single state feeds everything downstream: exit Mach, wall heat load, tunnel radiation. A 17-cell reactor march confirmed the in-duct bottleneck is mixing, not chemistry, which sized the 19-port injector (Damköhler 0.125 → 0.61).</p>
+        <div class="figs">
+          <div class="fig hot"><div class="n">2178 K</div><div class="l">product gas</div></div>
+          <div class="fig"><div class="n">53</div><div class="l">species tracked</div></div>
+          <div class="fig cool"><div class="n">×19</div><div class="l">injector ports</div></div>
+        </div>
+      </div>
+
+      <div class="sol rv">
+        <div class="k">03 · Thermal survival</div>
+        <h3>Steel survives on the clock, not the alloy</h3>
+        <p>In steady state no steel wall survives this gas: the terminal temperature is <b>2039 K</b>. Survival is transient. The wall's thermal time constant is <b>59.3 s</b> against a 10 s shot, so a plain <b>5 mm S235JR</b> wall ends the burn at <b>568 K</b>, 232 K under the 800 K service limit, before crediting the slot film cooling at all.</p>
+        <div class="thermbar" aria-label="Wall temperature at shutdown, 568 K, versus 800 K service limit">
+          <svg viewBox="0 0 640 74" xmlns="http://www.w3.org/2000/svg" role="img">
+            <text x="0" y="12" font-family="IBM Plex Mono,monospace" font-size="10" fill="#94A1A9">WALL TEMPERATURE AT SHUTDOWN</text>
+            <rect x="0" y="24" width="640" height="18" fill="#1B252D"/>
+            <rect x="0" y="24" width="404" height="18" fill="#4C82F0"/>
+            <line x1="569" y1="16" x2="569" y2="50" stroke="#F26A21" stroke-width="2" stroke-dasharray="4 3"/>
+            <text x="398" y="66" font-family="IBM Plex Mono,monospace" font-size="10.5" fill="#A9C4FF" text-anchor="end">568 K</text>
+            <text x="576" y="66" font-family="IBM Plex Mono,monospace" font-size="10.5" fill="#F26A21">800 K limit</text>
+          </svg>
+        </div>
+      </div>
+
+      <div class="sol rv">
+        <div class="k">04 · Hardware, released</div>
+        <h3>Deliberately boring manufacturing</h3>
+        <p>A 1.70 m convergent duct in 5 mm structural steel with <b>238 Ø8 mm slots</b>: every hole admits air and lays a rocket-style cooling film along the wall. A <b>19-port showerhead injector</b> shortens fuel-to-air mixing without touching the entrainment momentum, and <b>20–30 L/s of water injection</b> shields the exhaust tunnel from the 19.3 MW gas load. Full <b>SolidWorks assembly and fabrication drawings</b>, grounded in on-site measurement at Oberpfaffenhofen: laser-cut, rolled, MAG-welded, about <b>€2,500</b> and three weeks from order to steel.</p>
+        <div class="figs">
+          <div class="fig"><div class="n">92.5 kg</div><div class="l">tube mass</div></div>
+          <div class="fig cool"><div class="n">238</div><div class="l">film slots</div></div>
+          <div class="fig"><div class="n">3 wks</div><div class="l">order to steel</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- requirement verdict card -->
+    <div class="reqcard rv" aria-label="Design review requirement verdicts">
+      <div class="rc-head"><span>DESIGN REVIEW · REQUIREMENT VERDICTS</span><span>07 / 2026</span></div>
+      <div class="req">
+        <div class="id">REQ-01</div>
+        <div class="what">Containment</div>
+        <div class="how">Flame axial, inside the duct, off structure and facade. Richardson number ≈ 0.001 across 100–400 g/s, ignition transient bounded.</div>
+        <div class="pill closed">CLOSED</div>
+      </div>
+      <div class="req">
+        <div class="id">REQ-02</div>
+        <div class="what">Entrainment over buoyancy</div>
+        <div class="how">Entrained axial momentum exceeds buoyant lift at every flow rate: 106% of stoichiometric air, fully passive.</div>
+        <div class="pill closed">CLOSED</div>
+      </div>
+      <div class="req">
+        <div class="id">REQ-03</div>
+        <div class="what">Thermal survival</div>
+        <div class="how">Wall under the 800 K service limit through every 10 s shot: 568 K at shutdown, time margin 2.0.</div>
+        <div class="pill closed">CLOSED</div>
+      </div>
+      <div class="req">
+        <div class="id">REQ-04</div>
+        <div class="what">In-duct combustion</div>
+        <div class="how">~12% today; a designed, costed path to 50–60% via the injection head. Full combustion in 1.7 m was never achievable by any passive device, and saying so plainly is part of the review.</div>
+        <div class="pill partial">PARTIAL · PATH DESIGNED</div>
+      </div>
+    </div>
+
+    <p class="next-line rv"><b>NEXT:</b> commissioning runs as a predict–measure–decide staircase, 100 → 200 → 300 → 400 g/s, with pre-registered abort criteria, wall and tunnel thermocouples, and water quench active from shot one. Every shot is a calibration experiment.</p>
+  </div>
+</section>
+
+<!-- ================= PROJECTS ================= -->
+<section id="projects">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <p class="eyebrow">Selected projects</p>
+      <h2>Satellites, drones, and the tests that keep them honest</h2>
+    </div>
+    <div class="proj-grid">
+      <a class="proj rv" href="https://github.com/floyd1009/pulse-attitude-control-satellite" target="_blank" rel="noopener">
+        <div class="repo">floyd1009 / pulse-attitude-control-satellite</div>
+        <h3>PULSE ADCS</h3>
+        <p>Led the attitude determination and control system for TU Berlin's PULSE 3P PocketQube: a B-dot detumbling controller in C on an STM32 Nucleo driving magnetic torquers, developed in MATLAB/Simulink and validated hardware-in-the-loop in a Helmholtz cage, with attitude profiles tuned alongside the power team for solar exposure.</p>
+        <div class="tags"><span>ADCS</span><span>B-dot control</span><span>STM32</span><span>MATLAB / Simulink</span><span>HIL</span></div>
+        <span class="link">View repository →</span>
+      </a>
+      <div class="proj rv">
+        <div class="repo">European Rover Challenge · 2024–2025</div>
+        <h3>Autonomous drone navigation</h3>
+        <p>Autonomous drone system for the European Rover Challenge: a Raspberry Pi 4 over a PX4/ArduPilot flight controller, real-time ArUco marker detection at 30 FPS for precision landing inside 1 m² sectors, and a multithreaded PyMAVLink telemetry stack with automated failsafes flying fully autonomous 20-minute missions.</p>
+        <div class="tags"><span>Python</span><span>PyMAVLink</span><span>PX4 / ArduPilot</span><span>Computer vision</span></div>
+        <span class="nolink">Field-flown at competition</span>
+      </div>
+      <a class="proj rv" href="https://github.com/floyd1009/space-electronics-system" target="_blank" rel="noopener">
+        <div class="repo">floyd1009 / space-electronics-system</div>
+        <h3>CADSE v5 satellite platform</h3>
+        <p>ESP32-S3 satellite simulation platform from TU Berlin's Space Electronics course: environmental telemetry over MQTT with TLS, remote commanding, over-the-air updates, and six flight-style operating modes including an attitude indicator and orbit simulator.</p>
+        <div class="tags"><span>C++</span><span>ESP32-S3</span><span>MQTT / TLS</span><span>PlatformIO</span></div>
+        <span class="link">View repository →</span>
+      </a>
+      <a class="proj rv" href="https://github.com/floyd1009/mct-tests" target="_blank" rel="noopener">
+        <div class="repo">floyd1009 / mct-tests</div>
+        <h3>Mission-control test suite</h3>
+        <p>Automated Python test suite for a Qt-based UDP telemetry visualization application: exercising the network interface and display behavior of a mission-control-style tool, because tools that watch hardware deserve tests too.</p>
+        <div class="tags"><span>Python</span><span>Qt</span><span>UDP</span><span>Test automation</span></div>
+        <span class="link">View repository →</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= EXPERIENCE ================= -->
+<section id="experience" class="band">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <p class="eyebrow">Experience</p>
+      <h2>Where the numbers met hardware</h2>
+    </div>
+    <div class="xp rv">
+      <div class="xp-row">
+        <div class="org">TUM · Chair of Space Mobility and Propulsion<span class="sub">MSc Thesis Researcher · Propulsion Test Infrastructure</span></div>
+        <div class="desc">The featured work above: a five-equation MATLAB model and Cantera chemistry carried through a full SolidWorks assembly, fabrication drawings, and on-site geometry measurement at the Oberpfaffenhofen test facility.</div>
+        <div class="when">Feb 2026 – present<br>Munich</div>
+      </div>
+      <div class="xp-row">
+        <div class="org">Quantum Diamonds<span class="sub">Software Engineering Intern</span></div>
+        <div class="desc">Automated test infrastructure for quantum measurement software: 54+ pytest tests with hardware-in-the-loop isolation protecting $100k+ camera, stage, and power-supply hardware, plus a unified CI runner across 267 Python and C++ tests.</div>
+        <div class="when">Nov 2025 – Feb 2026<br>Munich</div>
+      </div>
+      <div class="xp-row">
+        <div class="org">BEARS Rocketry · TU Berlin<span class="sub">Electronics Division Lead</span></div>
+        <div class="desc">Led electronics for a 750 N student rocket engine: LabVIEW data acquisition capturing pressure, temperature, and thrust at 1 kHz, and supported the team's transition from liquid to hybrid propulsion.</div>
+        <div class="when">Apr 2024 – Nov 2025<br>Berlin</div>
+      </div>
+      <div class="xp-row">
+        <div class="org">Ucaneo Biotech<span class="sub">Working Student · Engineering</span></div>
+        <div class="desc">Built and characterized a prototype direct air capture system: ultrasonic depth, flow, and current sensing under Arduino control, with a Siemens S7-1200 PLC integrating 8 sensors at 98% data-capture accuracy.</div>
+        <div class="when">Feb 2025 – Jul 2025<br>Berlin</div>
+      </div>
+      <div class="xp-row">
+        <div class="org">Rocket Factory Augsburg<span class="sub">Pre-Development Intern · Test-Stand Design</span></div>
+        <div class="desc">Designed DN150/DN250 high-pressure piping for launch vehicle test infrastructure: structural calculations to a 3× safety factor and water-hammer transient analysis that cut pressure spikes by 40% for full-duration engine burns.</div>
+        <div class="when">Nov 2024 – Jan 2025<br>Augsburg</div>
+      </div>
+      <div class="xp-row">
+        <div class="org">Cotmac · Siemens Solutions Partner<span class="sub">IoT Engineer · Robotics</span></div>
+        <div class="desc">Programmed pneumatic control for automated production lines in Siemens TIA Portal, six stations with RFID and photoelectric sensing, and commissioned automation cells at four customer sites.</div>
+        <div class="when">Dec 2022 – Jan 2024<br>Pune</div>
+      </div>
+      <div class="xp-row">
+        <div class="org">Javis Holdings<span class="sub">Mechanical Engineer</span></div>
+        <div class="desc">Designed the dispensing and purging system for robotic work cells: fluidic circuits with solenoid sequencing and peristaltic pump control, documented in P&amp;IDs and DFM/DFA-driven CAD.</div>
+        <div class="when">May 2022 – Dec 2022<br>Singapore</div>
+      </div>
+      <div class="xp-row">
+        <div class="org">Aerospace design validation<span class="sub">Founder · In Stealth</span></div>
+        <div class="desc">Building an AI-assisted design validator for aerospace systems. Selected for the AI Nation Grant, 2026 cohort.</div>
+        <div class="when">2026 – present<br>Munich · Berlin</div>
+      </div>
+    </div>
+
+    <p class="edu-k rv">Education</p>
+    <div class="xp rv" style="margin-top:16px">
+      <div class="xp-row">
+        <div class="org">MSc Space Engineering<span class="sub">Technische Universität Berlin</span></div>
+        <div class="desc">Thesis hosted at TUM's Chair of Space Mobility and Propulsion.</div>
+        <div class="when">Expected Sept 2026<br>Berlin · Munich</div>
+      </div>
+      <div class="xp-row">
+        <div class="org">BEng Mechanical Engineering<span class="sub">Teesside University</span></div>
+        <div class="desc">First-Class Honors.</div>
+        <div class="when">2022<br>Singapore</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CAPABILITIES ================= -->
+<section id="capabilities">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <p class="eyebrow">Capabilities</p>
+      <h2>Analysis to test stand, with the code in between</h2>
+    </div>
+    <div class="cap-grid rv">
+      <div class="cap">
+        <h3>Analysis &amp; modeling</h3>
+        <ul>
+          <li>Combustion modeling · Cantera, GRI-Mech 3.0</li>
+          <li>Compressible &amp; incompressible flow</li>
+          <li>Transient heat transfer · radiation &amp; convection</li>
+          <li>Water-hammer &amp; transient analysis</li>
+          <li>FEA · ANSYS Workbench</li>
+          <li>Thermodynamics &amp; turbomachinery</li>
+          <li>Control theory · PID, Nyquist, Bode</li>
+        </ul>
+      </div>
+      <div class="cap">
+        <h3>Test &amp; hardware</h3>
+        <ul>
+          <li>Test-stand design &amp; instrumentation</li>
+          <li>LabVIEW DAQ · 1 kHz multi-channel</li>
+          <li>Hardware-in-the-loop · pytest, Helmholtz cage</li>
+          <li>Sensor calibration &amp; validation</li>
+          <li>CAD · SolidWorks, Siemens NX</li>
+          <li>P&amp;ID · pneumatics &amp; hydraulics</li>
+          <li>DFM/DFA · laser-cut, rolled, welded steel</li>
+        </ul>
+      </div>
+      <div class="cap">
+        <h3>Software &amp; controls</h3>
+        <ul>
+          <li>MATLAB &amp; Simulink</li>
+          <li>Python · pytest, PyMAVLink</li>
+          <li>C &amp; C++ · STM32, ESP32</li>
+          <li>Siemens S7-1200 PLC · TIA Portal</li>
+          <li>Arduino, Raspberry Pi · I2C, SPI, UART</li>
+          <li>Git, Bash, Linux</li>
+          <li>LaTeX</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= BEYOND ================= -->
+<div class="beyond">
+  <div class="wrap">
+    <div class="inner rv">
+      <span class="k">Off the bench</span>
+      <p>Preparing for an EASA PPL(A) private pilot license. Powerlifting, kickboxing, and jiu-jitsu keep the margins healthy. Also: cocktails made properly, and travel planned around what's on the plate.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ================= CONTACT ================= -->
+<section class="contact" id="contact">
+  <div class="wrap">
+    <p class="eyebrow rv">Contact</p>
+    <h2 class="rv">Open to propulsion test and systems engineering roles.</h2>
+    <p class="rv">Based in Munich, at home anywhere there's a test stand. If you're building engines, benches, satellites, or the tools around them, I'd like to hear about it.</p>
+    <div class="cta-row rv">
+      <a class="btn solid" href="mailto:floyd.dsouza@tum.de">Email me</a>
+      <a class="btn ghost" href="https://www.linkedin.com/in/floyddsouza1009" target="_blank" rel="noopener">LinkedIn ↗</a>
+      <a class="btn ghost" href="https://github.com/floyd1009" target="_blank" rel="noopener">GitHub ↗</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>FLOYD D'SOUZA · 2026</span>
+    <span>MUNICH, DE · 48.14° N, 11.58° E</span>
+  </div>
+</footer>
+
+</main>
+
+<script>
+(function(){
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // scroll reveal
+  var rv = document.querySelectorAll('.rv');
+  if('IntersectionObserver' in window && !reduce){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    },{threshold:0.12});
+    rv.forEach(function(el){ io.observe(el); });
+  } else {
+    rv.forEach(function(el){ el.classList.add('in'); });
+  }
+
+  // count-up readouts
+  var nums = document.querySelectorAll('[data-count]');
+  if(reduce || !('IntersectionObserver' in window)) return;
+  var seen = new WeakSet();
+  var io2 = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(!e.isIntersecting || seen.has(e.target)) return;
+      seen.add(e.target);
+      var el = e.target;
+      var target = parseFloat(el.getAttribute('data-count'));
+      var dec = parseInt(el.getAttribute('data-dec')||'0',10);
+      var t0 = null, dur = 1100;
+      function step(t){
+        if(!t0) t0 = t;
+        var p = Math.min((t - t0)/dur, 1);
+        var eased = 1 - Math.pow(1 - p, 3);
+        el.textContent = (target*eased).toFixed(dec);
+        if(p < 1) requestAnimationFrame(step);
+        else el.textContent = target.toFixed(dec);
+      }
+      requestAnimationFrame(step);
+      io2.unobserve(el);
+    });
+  },{threshold:0.5});
+  nums.forEach(function(el){ io2.observe(el); });
+})();
+</script>
+</body>
+</html>
