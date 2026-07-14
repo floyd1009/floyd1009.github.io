@@ -157,8 +157,7 @@ figcaption{
   background:var(--bg);border:1px solid var(--line);border-radius:var(--rad);
   padding:28px 28px 26px;
 }
-.sol .k{font-family:var(--mono);font-size:.66rem;letter-spacing:.16em;color:var(--blue-text);text-transform:uppercase}
-.sol h3{font-weight:680;font-stretch:108%;font-size:1.22rem;margin:10px 0 12px;letter-spacing:-.01em;color:#fff}
+.sol .k{font-family:var(--mono);font-size:.72rem;font-weight:600;letter-spacing:.16em;color:var(--blue-text);text-transform:uppercase;margin-bottom:14px}
 .sol p{font-size:.94rem;color:var(--tx-2)}
 .sol p b{color:var(--tx);font-weight:600}
 .sol .figs{display:flex;gap:22px;margin-top:18px;flex-wrap:wrap}
@@ -467,7 +466,6 @@ footer span{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;color:
     <div class="sol-grid">
       <div class="sol rv">
         <div class="k">01 · Passive air supply</div>
-        <h3>Five conservation laws, no correlations</h3>
         <p>A bare methane jet entrains only <b>76%</b> of the <b>6.86 kg/s</b> of air the combustion demands. The convergent duct closes the gap: a five-equation control-volume model (mass, momentum, energy) solved as a <b>520-point MATLAB sweep</b>, then extended to compressible flow when the silencer interface pushed exit Mach to 0.39, with the ~7% density error quantified and accepted.</p>
         <div class="figs">
           <div class="fig cool"><div class="n">106%</div><div class="l">stoich air, passive</div></div>
@@ -478,7 +476,6 @@ footer span{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;color:
 
       <div class="sol rv">
         <div class="k">02 · Combustion state</div>
-        <h3>Equilibrium chemistry, done honestly</h3>
         <p>Product gas resolved with <b>Cantera and GRI-Mech 3.0</b> (53 species) at constant enthalpy and pressure: <b>2178 K</b>, below the naive complete-combustion estimate because dissociation absorbs enthalpy. That single state feeds everything downstream: exit Mach, wall heat load, tunnel radiation. A 17-cell reactor march confirmed the in-duct bottleneck is mixing, not chemistry, which sized the 19-port injector (Damköhler 0.125 → 0.61).</p>
         <div class="figs">
           <div class="fig hot"><div class="n">2178 K</div><div class="l">product gas</div></div>
@@ -489,7 +486,6 @@ footer span{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;color:
 
       <div class="sol rv">
         <div class="k">03 · Thermal survival</div>
-        <h3>Steel survives on the clock, not the alloy</h3>
         <p>In steady state no steel wall survives this gas: the terminal temperature is <b>2039 K</b>. Survival is transient. The wall's thermal time constant is <b>59.3 s</b> against a 10 s shot, so a plain <b>5 mm S235JR</b> wall ends the burn at <b>568 K</b>, 232 K under the 800 K service limit, before crediting the slot film cooling at all.</p>
         <div class="thermbar" aria-label="Wall temperature at shutdown, 568 K, versus 800 K service limit">
           <svg viewBox="0 0 640 74" xmlns="http://www.w3.org/2000/svg" role="img">
@@ -505,7 +501,6 @@ footer span{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;color:
 
       <div class="sol rv">
         <div class="k">04 · Hardware, released</div>
-        <h3>Deliberately boring manufacturing</h3>
         <p>A 1.70 m convergent duct in 5 mm structural steel with <b>238 Ø8 mm slots</b>: every hole admits air and lays a rocket-style cooling film along the wall. A <b>19-port showerhead injector</b> shortens fuel-to-air mixing without touching the entrainment momentum, and <b>20–30 L/s of water injection</b> shields the exhaust tunnel from the 19.3 MW gas load. Full <b>SolidWorks assembly and fabrication drawings</b>, grounded in on-site measurement at Oberpfaffenhofen: laser-cut, rolled, MAG-welded, about <b>€2,500</b> and three weeks from order to steel.</p>
         <div class="figs">
           <div class="fig"><div class="n">92.5 kg</div><div class="l">tube mass</div></div>
@@ -559,7 +554,7 @@ footer span{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;color:
       <a class="proj rv" href="https://github.com/floyd1009/pulse-attitude-control-satellite" target="_blank" rel="noopener">
         <div class="repo">floyd1009 / pulse-attitude-control-satellite</div>
         <h3>PULSE ADCS</h3>
-        <p>Led the attitude determination and control system for TU Berlin's PULSE 3P PocketQube: a B-dot detumbling controller in C on an STM32 Nucleo driving magnetic torquers, developed in MATLAB/Simulink and validated hardware-in-the-loop in a Helmholtz cage, with attitude profiles tuned alongside the power team for solar exposure.</p>
+        <p>Led the attitude determination and control system for TU Berlin's PULSE 3P PocketQube, following the V-model from simulation to hardware-in-the-loop: B-dot detumbling designed in MATLAB/Simulink, implemented in C on an STM32 Nucleo driving magnetic torquers, and validated in a Helmholtz cage.</p>
         <div class="tags"><span>ADCS</span><span>B-dot control</span><span>STM32</span><span>MATLAB / Simulink</span><span>HIL</span></div>
         <span class="link">View repository →</span>
       </a>
@@ -574,7 +569,7 @@ footer span{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;color:
         <div class="repo">floyd1009 / space-electronics-system</div>
         <h3>CADSE v5 satellite platform</h3>
         <p>ESP32-S3 satellite simulation platform from TU Berlin's Space Electronics course: environmental telemetry over MQTT with TLS, remote commanding, over-the-air updates, and six flight-style operating modes including an attitude indicator and orbit simulator.</p>
-        <div class="tags"><span>C++</span><span>ESP32-S3</span><span>MQTT / TLS</span><span>PlatformIO</span></div>
+        <div class="tags"><span>C++</span><span>ESP32-S3</span><span>MQTT / TLS</span></div>
         <span class="link">View repository →</span>
       </a>
       <a class="proj rv" href="https://github.com/floyd1009/mct-tests" target="_blank" rel="noopener">
@@ -593,7 +588,8 @@ footer span{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;color:
   <div class="wrap">
     <div class="sec-head rv">
       <p class="eyebrow">Experience</p>
-      <h2>Where the numbers met hardware</h2>
+      <h2>Work across startups</h2>
+      <p>Mostly startups, by choice: small teams, real hardware, and short paths from decision to metal.</p>
     </div>
     <div class="xp rv">
       <div class="xp-row">
@@ -707,7 +703,7 @@ footer span{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;color:
   <div class="wrap">
     <div class="inner rv">
       <span class="k">Off the bench</span>
-      <p>Preparing for an EASA PPL(A) private pilot license. Powerlifting, kickboxing, and jiu-jitsu keep the margins healthy. Also: cocktails made properly, and travel planned around what's on the plate.</p>
+      <p>Powerlifting, kickboxing, and jiu-jitsu keep the margins healthy. Also: cocktails made properly, and travel planned around what's on the plate.</p>
     </div>
   </div>
 </div>
@@ -717,7 +713,7 @@ footer span{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;color:
   <div class="wrap">
     <p class="eyebrow rv">Contact</p>
     <h2 class="rv">Open to propulsion test and systems engineering roles.</h2>
-    <p class="rv">Based in Munich, at home anywhere there's a test stand. If you're building engines, benches, satellites, or the tools around them, I'd like to hear about it.</p>
+    <p class="rv">Based in Munich. If you're building engines, test benches, satellites, or the tools around them, I'd like to hear about it.</p>
     <div class="cta-row rv">
       <a class="btn solid" href="mailto:floyd.dsouza@tum.de">Email me</a>
       <a class="btn ghost" href="https://www.linkedin.com/in/floyddsouza1009" target="_blank" rel="noopener">LinkedIn ↗</a>
