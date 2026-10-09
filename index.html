@@ -210,6 +210,12 @@ figcaption{
   padding:28px;display:flex;flex-direction:column;transition:border-color .15s, transform .15s;
 }
 .proj:hover{border-color:var(--blue);transform:translateY(-3px)}
+.proj.wide{grid-column:1/-1}
+.proj .shots{display:grid;grid-template-columns:1fr 1.3fr;gap:12px;margin:6px 0 18px}
+.proj .shots img{width:100%;height:220px;object-fit:cover;border-radius:6px;border:1px solid var(--line);display:block}
+.proj .shots figcaption{font-family:var(--mono);font-size:.62rem;color:var(--tx-2);letter-spacing:.06em;margin-top:6px;text-transform:uppercase}
+@media(max-width:640px){.proj .shots{grid-template-columns:1fr}.proj .shots img{height:200px}}
+
 .proj .repo{font-family:var(--mono);font-size:.68rem;color:var(--tx-2);letter-spacing:.04em}
 .proj h3{font-weight:680;font-stretch:108%;font-size:1.28rem;margin:12px 0 10px;letter-spacing:-.01em;color:#fff}
 .proj p{font-size:.92rem;color:var(--tx-2);flex:1}
@@ -578,6 +584,17 @@ footer span{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;color:
         <div class="tags"><span>Python</span><span>Qt</span><span>UDP</span><span>Test automation</span></div>
         <span class="link">View repository →</span>
       </a>
+      <div class="proj wide rv">
+        <div class="repo">BEng final-year project · Teesside University · 2022</div>
+        <h3>Remote-operated flamethrower and fire-suppression robot</h3>
+        <div class="shots">
+          <figure><img src="img/fyp-robot.jpg" alt="Assembled robot: steel chassis, water tank, fuel tank and nozzle on aluminium wheels" loading="lazy" width="900" height="822"><figcaption>Final assembly</figcaption></figure>
+          <figure><img src="img/fyp-flame.jpg" alt="Robot firing its petrol flamethrower during the test" loading="lazy" width="1068" height="600"><figcaption>Flame test</figcaption></figure>
+        </div>
+        <p>A joystick-controlled ground robot with two jobs: start a controlled burn and put it out. I designed it in SolidWorks; the chassis and tanks are 1.2 mm mild steel, laser-cut, bent and welded, on four 90 mm aluminium wheels driven by 12 V geared DC motors. A 12 V pump feeds petrol to the nozzle, where a spark gap of under 10 mm between copper electrodes ignites it; a separate diaphragm pump drives the water suppression nozzle. The electronics run on an 11.1 V LiPo through a buck regulator to an ATmega microcontroller, with optocoupler-isolated MOSFET drivers for the motors and pumps. In testing, the flame reached standing targets 2 m away. A timed drain test measured the fuel line at about 100 cm³/s against 55 cm³/s for the water line, and the undersized water nozzle was the limit I named for the next build.</p>
+        <div class="tags"><span>SolidWorks</span><span>Sheet-metal fabrication</span><span>Pump-fed fuel system</span><span>Spark ignition</span><span>Motor and pump drivers</span><span>Test and measurement</span></div>
+        <span class="nolink">Built and fire-tested</span>
+      </div>
     </div>
   </div>
 </section>
@@ -637,7 +654,7 @@ footer span{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;color:
       </div>
       <div class="xp-row">
         <div class="org">BEng Mechanical Engineering<span class="sub">Teesside University</span></div>
-        <div class="desc">First-Class Honours.</div>
+        <div class="desc">First-Class Honours. Final-year project: the flamethrower and fire-suppression robot above.</div>
         <div class="when">2022<br>Singapore</div>
       </div>
     </div>
