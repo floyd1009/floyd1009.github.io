@@ -63,7 +63,7 @@ header{
 @media(max-width:760px){.hd nav{display:none}}
 
 /* ---------- hero ---------- */
-.hero{padding:96px 0 0}
+.hero{padding:96px 28px 0}
 .eyebrow{
   font-family:var(--mono);font-size:.72rem;font-weight:500;
   letter-spacing:.18em;color:var(--blue-text);text-transform:uppercase;
@@ -87,6 +87,16 @@ h1{
 .btn.solid:hover{background:var(--blue);border-color:var(--blue);color:#fff}
 .btn.ghost{background:transparent;color:var(--tx)}
 .btn.ghost:hover{border-color:var(--blue);color:var(--blue-text)}
+
+.hero-top{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:56px;align-items:end}
+.portrait{margin:0}
+.portrait img{width:280px;height:320px;object-fit:cover;object-position:50% 15%;display:block;border-radius:var(--rad);border:1px solid var(--line-strong)}
+@media(max-width:900px){
+  .hero{padding-top:56px}
+  .hero-top{grid-template-columns:1fr;gap:28px}
+  .portrait{order:-1}
+  .portrait img{width:104px;height:104px;border-radius:50%}
+}
 
 /* readout strip */
 .readouts{
@@ -325,12 +335,17 @@ footer span{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;color:
 
 <!-- ================= HERO ================= -->
 <div class="hero wrap">
+  <div class="hero-top">
+  <div class="hero-copy">
   <p class="eyebrow">Propulsion · Test · Systems Engineering · Munich</p>
   <h1>First principles to a build-ready design.</h1>
   <p class="lede">I'm <strong>Floyd D'Souza</strong>, an engineer with an MSc in Space Engineering from <strong>TU Berlin</strong>. My thesis at <strong>TUM's Chair of Space Mobility and Propulsion</strong> in Munich, submitted in September 2026 and graded 1.3, took a rocket propulsion test-bench problem from conservation laws through CAD to a quoted fabrication package and a staged commissioning plan.</p>
   <div class="cta-row">
     <a class="btn solid" href="#work">See the thesis work</a>
     <a class="btn ghost" href="https://github.com/floyd1009" target="_blank" rel="noopener">GitHub ↗</a>
+  </div>
+  </div>
+  <figure class="portrait"><img src="img/floyd.jpg" alt="Portrait of Floyd D'Souza" width="432" height="494"></figure>
   </div>
 
   <div class="readouts" aria-label="Key design values from thesis">
