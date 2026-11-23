@@ -190,7 +190,7 @@ figcaption{
   font-family:var(--mono);font-size:.66rem;font-weight:600;letter-spacing:.1em;
   padding:7px 12px;border-radius:999px;text-align:center;justify-self:end;white-space:nowrap;
 }
-.pill.closed{background:var(--blue-tint);color:#A9C4FF;border:1px solid var(--blue)}
+.pill.met{background:var(--blue-tint);color:#A9C4FF;border:1px solid var(--blue)}
 .pill.partial{background:var(--flame-tint);color:#FFAB77;border:1px solid var(--flame-bright)}
 @media(max-width:860px){
   .req{grid-template-columns:1fr;gap:8px}
@@ -317,8 +317,8 @@ footer span{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;color:
 <!-- ================= HERO ================= -->
 <div class="hero wrap">
   <p class="eyebrow">Propulsion · Test · Systems Engineering · Munich</p>
-  <h1>First principles to test-ready hardware.</h1>
-  <p class="lede">I'm <strong>Floyd D'Souza</strong>, an engineer with an MSc in Space Engineering from <strong>TU Berlin</strong>. My thesis at <strong>TUM's Chair of Space Mobility and Propulsion</strong> in Munich, submitted in September 2026 and graded 1.3, took a propulsion test-bench problem from conservation laws through CAD to a quoted fabrication package and a commissioning plan.</p>
+  <h1>First principles to a build-ready design.</h1>
+  <p class="lede">I'm <strong>Floyd D'Souza</strong>, an engineer with an MSc in Space Engineering from <strong>TU Berlin</strong>. My thesis at <strong>TUM's Chair of Space Mobility and Propulsion</strong> in Munich, submitted in September 2026 and graded 1.3, took a rocket propulsion test-bench problem from conservation laws through CAD to a quoted fabrication package and a staged commissioning plan.</p>
   <div class="cta-row">
     <a class="btn solid" href="#work">See the thesis work</a>
     <a class="btn ghost" href="https://github.com/floyd1009" target="_blank" rel="noopener">GitHub ↗</a>
@@ -341,9 +341,9 @@ footer span{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;color:
       <div class="note">entrained passively, no fans</div>
     </div>
     <div class="ch">
-      <div class="tag">CH-04 · THERMAL MARGIN</div>
-      <div class="val"><span data-count="1.9" data-dec="1">1.9</span><span class="unit">×</span></div>
-      <div class="note">against the 800 K wall limit</div>
+      <div class="tag">CH-04 · TIME MARGIN</div>
+      <div class="val"><span data-count="1.87" data-dec="2">1.87</span><span class="unit">×</span></div>
+      <div class="note">18.7 s to the 800 K wall limit, 10 s test</div>
     </div>
   </div>
   <p class="readout-cap">DESIGN VALUES · MSC THESIS · FLAME CONTAINMENT FOR A ROCKET PROPULSION TEST BENCH</p>
@@ -363,7 +363,7 @@ footer span{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;color:
       </div>
     </div>
 
-    <p class="problem rv">On a rocket propulsion test bench, methane must be flared safely inside an enclosed building. Burned methane is roughly eight times lighter than air, so buoyancy lifts the flame off its axis and drives it into the structure above. Damage begins at 80 g/s. The full test load is 400 g/s: <em>200 MJ released in a single 10-second shot</em>, with ambient air only and no supplementary oxygen. My thesis is the device that keeps that flame on the axis.</p>
+    <p class="problem rv">On a rocket propulsion test bench, methane must be flared safely inside an enclosed building. Burned methane is roughly eight times lighter than air, so buoyancy lifts the flame off its axis and drives it into the structure above. At 100 g/s the flame already damages equipment above the bench, so the facility is held to a quarter of its specified flow. The full test load is 400 g/s: <em>200 MJ released in a single 10-second shot</em>, with ambient air only and no supplementary oxygen. My thesis is the device that keeps that flame on the axis.</p>
 
     <!-- signature: duct schematic -->
     <figure class="schem rv" aria-label="Cross-section schematic of the convergent flame containment duct">
@@ -396,7 +396,7 @@ footer span{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;color:
                    C 800 218, 740 238, 640 252
                    C 480 272, 330 250, 262 205 Z"
                 fill="url(#flameGrad)" opacity="0.85"/>
-          <text x="380" y="209" font-family="IBM Plex Mono,monospace" font-size="11" fill="#FFFFFF" stroke="#0C1116" stroke-width="3" paint-order="stroke" stroke-linejoin="round">flame held on axis · Ri ≈ 0.001</text>
+          <text x="380" y="209" font-family="IBM Plex Mono,monospace" font-size="11" fill="#FFFFFF" stroke="#0C1116" stroke-width="3" paint-order="stroke" stroke-linejoin="round">flame held on axis · momentum 945× buoyancy</text>
         </g>
 
         <!-- methane pipe + label -->
@@ -414,7 +414,7 @@ footer span{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;color:
           <circle cx="190" cy="205" r="2.6" fill="#E8EDF0"/>
           <circle cx="190" cy="220" r="2.6" fill="#E8EDF0"/>
           <circle cx="190" cy="235" r="2.6" fill="#E8EDF0"/>
-          <text x="78" y="128" font-family="IBM Plex Mono,monospace" font-size="11" fill="#E8EDF0">19-port injector</text>
+          <text x="78" y="128" font-family="IBM Plex Mono,monospace" font-size="11" fill="#E8EDF0">multi-port injector</text>
           <line x1="168" y1="134" x2="184" y2="155" stroke="#5E6B74" stroke-width="1"/>
         </g>
 
@@ -444,13 +444,13 @@ footer span{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;color:
 
         <!-- interior pressure label (clear band between flame top and wall) -->
         <g class="part">
-          <text x="640" y="148" font-family="IBM Plex Mono,monospace" font-size="10.5" fill="#9FB0BA">interior ≈ 920 Pa below ambient</text>
+          <text x="640" y="148" font-family="IBM Plex Mono,monospace" font-size="10.5" fill="#9FB0BA">interior ≈ 933 Pa below ambient</text>
         </g>
 
         <!-- exit -->
         <g class="part">
           <line x1="840" y1="205" x2="906" y2="205" stroke="#E8EDF0" stroke-width="2.5" marker-end="url(#arrL)"/>
-          <text x="930" y="252" text-anchor="end" font-family="IBM Plex Mono,monospace" font-size="11" fill="#E8EDF0">to silencer / water quench</text>
+          <text x="930" y="252" text-anchor="end" font-family="IBM Plex Mono,monospace" font-size="11" fill="#E8EDF0">to the planned silencer</text>
           <line x1="898" y1="242" x2="892" y2="214" stroke="#5E6B74" stroke-width="1"/>
         </g>
 
@@ -471,21 +471,21 @@ footer span{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;color:
     <div class="sol-grid">
       <div class="sol rv">
         <div class="k">01 · Passive air supply</div>
-        <p>A bare methane jet entrains only <b>76%</b> of the <b>6.86 kg/s</b> of air the combustion demands. The convergent duct closes the gap: a five-equation control-volume model (mass, momentum, energy) solved as a <b>520-point MATLAB sweep</b>, then extended to compressible flow when the silencer interface pushed exit Mach to 0.39, with the ~7% density error quantified and accepted.</p>
+        <p>A bare methane jet entrains only <b>76%</b> of the <b>6.86 kg/s</b> of air the combustion demands. The convergent duct closes the gap: a four-station, five-equation control-volume model (mass, momentum, energy) solved in <b>MATLAB with fsolve</b>. The silencer bore fixed the exit diameter and pushed the exit Mach number to 0.39, so the ~7% density error of the incompressible treatment is quantified and corrected at the exit plane.</p>
         <div class="figs">
           <div class="fig cool"><div class="n">106%</div><div class="l">stoich air, passive</div></div>
           <div class="fig"><div class="n">φ 0.94</div><div class="l">lean by design</div></div>
-          <div class="fig"><div class="n">Ma 0.39</div><div class="l">exit, compressible</div></div>
+          <div class="fig"><div class="n">Ma 0.39</div><div class="l">at the exit plane</div></div>
         </div>
       </div>
 
       <div class="sol rv">
         <div class="k">02 · Combustion state</div>
-        <p>Product gas resolved with <b>Cantera and GRI-Mech 3.0</b> (53 species) at constant enthalpy and pressure: <b>2178 K</b>, below the naive complete-combustion estimate because dissociation absorbs enthalpy. That single state feeds everything downstream: exit Mach, wall heat load, tunnel radiation. A 17-cell reactor march confirmed the in-duct bottleneck is mixing, not chemistry, which sized the 19-port injector (Damköhler 0.125 → 0.61).</p>
+        <p>Product gas resolved with <b>Cantera and GRI-Mech 3.0</b> (53 species) at constant enthalpy and pressure: <b>2178 K</b>, below the naive complete-combustion estimate because dissociation absorbs enthalpy. That single state feeds everything downstream: exit Mach, wall heat load, tunnel radiation. A 17-cell reactor march showed the in-duct bottleneck is mixing, not chemistry (Damköhler 0.125 against a threshold of 1), which is what the injector designs below attack.</p>
         <div class="figs">
           <div class="fig hot"><div class="n">2178 K</div><div class="l">product gas</div></div>
           <div class="fig"><div class="n">53</div><div class="l">species tracked</div></div>
-          <div class="fig cool"><div class="n">×19</div><div class="l">injector ports</div></div>
+          <div class="fig cool"><div class="n">Da 0.125</div><div class="l">mixing-limited</div></div>
         </div>
       </div>
 
@@ -506,7 +506,7 @@ footer span{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;color:
 
       <div class="sol rv">
         <div class="k">04 · Hardware, designed for fabrication</div>
-        <p>A 1.70 m convergent duct in 5 mm structural steel with <b>238 Ø8 mm slots</b>: every hole admits air and lays a rocket-style cooling film along the wall. A <b>19-port showerhead injector</b> shortens fuel-to-air mixing without touching the entrainment momentum, and <b>20–30 L/s of water injection</b> shields the exhaust tunnel from the 19.3 MW gas load. Full <b>SolidWorks assembly and fabrication drawings</b>, grounded in on-site measurement at Oberpfaffenhofen and planned as laser-cut, rolled and MAG-welded steel. The fabrication package is complete and quoted.</p>
+        <p>A 1.70 m convergent duct in 5 mm structural steel with <b>238 Ø8 mm slots</b>: every hole admits air and lays a rocket-style cooling film along the wall. Two injector designs shorten fuel-to-air mixing: a <b>19-port showerhead head</b>, the principle of a rocket injector, and the <b>clamp-on star injector</b> selected at the design review because it needs no welding on facility pipework. Full <b>SolidWorks assembly and fabrication drawings</b>, grounded in on-site measurement at Oberpfaffenhofen and planned as laser-cut, rolled and welded steel. The fabrication package is complete and quoted.</p>
         <div class="figs">
           <div class="fig"><div class="n">92.5 kg</div><div class="l">tube mass</div></div>
           <div class="fig cool"><div class="n">238</div><div class="l">film slots</div></div>
@@ -516,35 +516,35 @@ footer span{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;color:
     </div>
 
     <!-- requirement verdict card -->
-    <div class="reqcard rv" aria-label="Design review requirement verdicts">
-      <div class="rc-head"><span>DESIGN REVIEW · REQUIREMENT VERDICTS</span><span>07 / 2026</span></div>
+    <div class="reqcard rv" aria-label="Requirement status, verified by analysis">
+      <div class="rc-head"><span>REQUIREMENT STATUS</span><span>BY ANALYSIS · NOT YET TESTED</span></div>
       <div class="req">
         <div class="id">REQ-01</div>
-        <div class="what">Containment</div>
-        <div class="how">Flame axial, inside the duct, off structure and facade. Richardson number ≈ 0.001 across 100–400 g/s, ignition transient bounded.</div>
-        <div class="pill closed">CLOSED</div>
+        <div class="what">Air supply</div>
+        <div class="how">106% of the stoichiometric air demand, entrained passively through the inlet annulus, before crediting the wall slots or the facility fans.</div>
+        <div class="pill met">MET BY ANALYSIS</div>
       </div>
       <div class="req">
         <div class="id">REQ-02</div>
-        <div class="what">Entrainment over buoyancy</div>
-        <div class="how">Entrained axial momentum exceeds buoyant lift at every flow rate: 106% of stoichiometric air, fully passive.</div>
-        <div class="pill closed">CLOSED</div>
+        <div class="what">Momentum over buoyancy</div>
+        <div class="how">Entrained axial momentum exceeds buoyant lift by a factor of 945 at the design point, so the flame stays on the duct axis and off the structure.</div>
+        <div class="pill met">MET BY ANALYSIS</div>
       </div>
       <div class="req">
         <div class="id">REQ-03</div>
         <div class="what">Thermal survival</div>
-        <div class="how">Wall under the 800 K service limit through every 10 s shot: 588 K at shutdown, time margin 1.87 (1.44 worst case).</div>
-        <div class="pill closed">CLOSED</div>
+        <div class="how">Wall under the 800 K service limit through the 10 s shot: 588 K at shutdown, time margin 1.87 (1.44 worst case).</div>
+        <div class="pill met">MET BY ANALYSIS</div>
       </div>
       <div class="req">
         <div class="id">REQ-04</div>
         <div class="what">In-duct combustion</div>
-        <div class="how">~12% today; a designed, costed path to 50–60% via the injection head. Full combustion in 1.7 m was never achievable by any passive device, and saying so plainly is part of the review.</div>
-        <div class="pill partial">PARTIAL · PATH DESIGNED</div>
+        <div class="how">About 12% with the bare pipe. The star injector is predicted to raise it to 25–45%, with the showerhead head (43%) documented as the second stage. Full combustion in 1.7 m is beyond a passive device, and the review says so plainly.</div>
+        <div class="pill partial">OPEN · PATH DESIGNED</div>
       </div>
     </div>
 
-    <p class="next-line rv"><b>OUTCOME:</b> the silencer and its water injection were not delivered within the project, so the Chair changed the requirement to external flaring: methane piped out of the building and flared vertically outdoors. I re-sized for that configuration and wrote its staged commissioning plan, 100 → 200 → 300 → 400 g/s, with abort criteria, fail-closed interlocks and an acceptance criterion per stage. The containment tube is verified by analysis, not yet validated by test.</p>
+    <p class="next-line rv"><b>OUTCOME:</b> the requirement moved to external flaring: methane piped out of the building and flared vertically outdoors, with a predicted flame length of 12.2 m at full flow. I re-sized for that configuration and wrote its staged commissioning plan, 40 → 100 → 200 → 300 → 400 g/s, with abort criteria, fail-closed interlocks and an acceptance criterion per stage. <b>STATUS:</b> nothing has been fabricated or fired. The containment tube is verified by analysis, not yet validated by test.</p>
   </div>
 </section>
 
@@ -553,29 +553,33 @@ footer span{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;color:
   <div class="wrap">
     <div class="sec-head rv">
       <p class="eyebrow">Selected projects</p>
-      <h2>AI, satellites, drones, and the tests that keep them honest</h2>
+      <h2>Satellites, drones, a flame-throwing robot, and the tests that keep them honest</h2>
     </div>
     <div class="proj-grid">
-      <a class="proj wide rv" href="https://aerodesign-ai.com" target="_blank" rel="noopener">
-        <div class="repo">Building now · Co-founder · aerodesign-ai.com</div>
-        <h3>AeroDesign: an offline AI agent for aerospace engineering</h3>
-        <p>Space and defence engineers work with export-controlled data, so most of them cannot use cloud AI at all. AeroDesign runs fully offline on the company's own hardware and answers from their standards, their own documents and their databases, with a citation to the exact source page for every answer. Built with my co-founder and one AI engineer: a working desktop app with an ECSS standards pack (151 documents), document import, a read-only database connection, hybrid search with reranking, and one-click citations. Backed by the AI NATION grant and demoed live at AI Nation Demo Day, Berlin, October 2026.</p>
-        <div class="tags"><span>Open-weight LLMs</span><span>Retrieval and reranking</span><span>Offline-first</span><span>ECSS</span><span>Sovereign by design</span></div>
-        <span class="link">Visit aerodesign-ai.com →</span>
-      </a>
+      <div class="proj wide rv">
+        <div class="repo">BEng final-year project · Teesside University · 2022</div>
+        <h3>Remote-operated flamethrower and fire-suppression robot</h3>
+        <div class="shots">
+          <figure><img src="img/fyp-robot.jpg" alt="Assembled robot: steel chassis, water tank, fuel tank and nozzle on aluminium wheels" loading="lazy" width="900" height="822"><figcaption>Final assembly</figcaption></figure>
+          <figure><img src="img/fyp-flame.jpg" alt="Robot firing its petrol flamethrower during the test" loading="lazy" width="1068" height="600"><figcaption>Flame test</figcaption></figure>
+        </div>
+        <p>A joystick-controlled ground robot with two jobs: start a controlled burn and put it out. I designed it in SolidWorks; the chassis and tanks are 1.2 mm mild steel, laser-cut and bent by a local fabricator, on four 90 mm aluminium wheels driven by 12 V geared DC motors. I assembled, wired and tested it. A 12 V pump feeds petrol to the nozzle, where a spark gap of under 10 mm between copper electrodes ignites it; a separate diaphragm pump drives the water suppression nozzle. The electronics run on an 11.1 V LiPo through a buck regulator to an ATmega microcontroller, with optocoupler-isolated MOSFET drivers for the motors and pumps. In testing, the flame reached standing targets 2 m away. A timed drain test measured the fuel line at about 100 cm³/s against 55 cm³/s for the water line, and the undersized water nozzle was the limit I named for the next build.</p>
+        <div class="tags"><span>SolidWorks</span><span>Sheet-metal fabrication</span><span>Pump-fed fuel system</span><span>Spark ignition</span><span>Motor and pump drivers</span><span>Test and measurement</span></div>
+        <span class="nolink">Designed, assembled and flame-tested</span>
+      </div>
       <a class="proj rv" href="https://github.com/floyd1009/pulse-attitude-control-satellite" target="_blank" rel="noopener">
         <div class="repo">floyd1009 / pulse-attitude-control-satellite</div>
         <h3>PULSE ADCS</h3>
-        <p>Led the attitude determination and control system for TU Berlin's PULSE 3P PocketQube, following the V-model from simulation to processor-in-the-loop: B-dot detumbling designed in MATLAB, verified software-in-the-loop, and run processor-in-the-loop in C on an STM32 Nucleo at 100 Hz, driving the magnetorquers by PWM.</p>
+        <p>Detumbling controller for the attitude determination and control system of TU Berlin's PULSE 3P PocketQube, taken down the V-model from requirements to processor-in-the-loop. B-dot law designed in MATLAB (30 to 2 deg/s in 11 minutes in simulation), C code generated with MATLAB Coder and verified software-in-the-loop, then run on an STM32 Nucleo at 100 Hz with a magnetometer on I2C and the magnetorquers driven by PWM. Hardware-in-the-loop in a Helmholtz cage was the planned next step.</p>
         <div class="tags"><span>ADCS</span><span>B-dot control</span><span>STM32</span><span>MATLAB</span><span>SIL / PIL</span></div>
         <span class="link">View repository →</span>
       </a>
       <div class="proj rv">
         <div class="repo">European Rover Challenge · 2024–2025</div>
         <h3>Autonomous drone navigation</h3>
-        <p>Autonomous drone system for the European Rover Challenge: a Raspberry Pi 4 over a PX4/ArduPilot flight controller, real-time ArUco marker detection at 30 FPS for precision landing inside 1 m² sectors, and a multithreaded PyMAVLink telemetry stack with automated failsafes flying fully autonomous 20-minute missions.</p>
+        <p>Autonomy for the TU Berlin drone team at the European Rover Challenge. I designed the mount for a Raspberry Pi 4 companion computer on the team's airframe, inside the thrust-to-weight budget, wired it to the Pixhawk flight controller, and wrote the autonomy stack in Python: PyMAVLink telemetry with automated failsafes and ArUco marker detection at 30 FPS for precision landing inside 1 m² sectors. Then I ran the autonomous flight tests.</p>
         <div class="tags"><span>Python</span><span>PyMAVLink</span><span>PX4 / ArduPilot</span><span>Computer vision</span></div>
-        <span class="nolink">Field-flown at competition</span>
+        <span class="nolink">Flight-tested · EU A1/A3 remote pilot certificate</span>
       </div>
       <a class="proj rv" href="https://github.com/floyd1009/space-electronics-system" target="_blank" rel="noopener">
         <div class="repo">floyd1009 / space-electronics-system</div>
@@ -591,17 +595,6 @@ footer span{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;color:
         <div class="tags"><span>Python</span><span>Qt</span><span>UDP</span><span>Test automation</span></div>
         <span class="link">View repository →</span>
       </a>
-      <div class="proj wide rv">
-        <div class="repo">BEng final-year project · Teesside University · 2022</div>
-        <h3>Remote-operated flamethrower and fire-suppression robot</h3>
-        <div class="shots">
-          <figure><img src="img/fyp-robot.jpg" alt="Assembled robot: steel chassis, water tank, fuel tank and nozzle on aluminium wheels" loading="lazy" width="900" height="822"><figcaption>Final assembly</figcaption></figure>
-          <figure><img src="img/fyp-flame.jpg" alt="Robot firing its petrol flamethrower during the test" loading="lazy" width="1068" height="600"><figcaption>Flame test</figcaption></figure>
-        </div>
-        <p>A joystick-controlled ground robot with two jobs: start a controlled burn and put it out. I designed it in SolidWorks; the chassis and tanks are 1.2 mm mild steel, laser-cut, bent and welded, on four 90 mm aluminium wheels driven by 12 V geared DC motors. A 12 V pump feeds petrol to the nozzle, where a spark gap of under 10 mm between copper electrodes ignites it; a separate diaphragm pump drives the water suppression nozzle. The electronics run on an 11.1 V LiPo through a buck regulator to an ATmega microcontroller, with optocoupler-isolated MOSFET drivers for the motors and pumps. In testing, the flame reached standing targets 2 m away. A timed drain test measured the fuel line at about 100 cm³/s against 55 cm³/s for the water line, and the undersized water nozzle was the limit I named for the next build.</p>
-        <div class="tags"><span>SolidWorks</span><span>Sheet-metal fabrication</span><span>Pump-fed fuel system</span><span>Spark ignition</span><span>Motor and pump drivers</span><span>Test and measurement</span></div>
-        <span class="nolink">Built and fire-tested</span>
-      </div>
     </div>
   </div>
 </section>
@@ -616,13 +609,8 @@ footer span{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;color:
     </div>
     <div class="xp rv">
       <div class="xp-row">
-        <div class="org">AeroDesign<span class="sub">Co-Founder · Offline AI agent for aerospace engineering</span></div>
-        <div class="desc">Building an AI agent that answers from engineering standards, documents and databases with a cited source for every answer, running fully offline on the customer's own hardware. AI NATION grant, Spring 2026.</div>
-        <div class="when">Oct 2025 – Present<br>Munich</div>
-      </div>
-      <div class="xp-row">
         <div class="org">TUM · Chair of Space Mobility and Propulsion<span class="sub">MSc Thesis · Flame containment and flaring system for a methane propulsion test bench</span></div>
-        <div class="desc">The featured work above: a five-equation MATLAB model and Cantera chemistry carried through a full SolidWorks assembly, fabrication drawings, and on-site geometry measurement at the Oberpfaffenhofen test facility.</div>
+        <div class="desc">The featured work above: a five-equation MATLAB model and Cantera chemistry carried through a full SolidWorks assembly, fabrication drawings, on-site geometry measurement at the Oberpfaffenhofen test facility, and a staged commissioning plan.</div>
         <div class="when">Feb 2026 – Sept 2026<br>Oberpfaffenhofen</div>
       </div>
       <div class="xp-row">
@@ -632,27 +620,27 @@ footer span{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;color:
       </div>
       <div class="xp-row">
         <div class="org">BEARS Rocketry · TU Berlin<span class="sub">Electronics Division Lead</span></div>
-        <div class="desc">Led electronics for a 750 N student rocket engine: LabVIEW data acquisition capturing pressure, temperature, and thrust at 1 kHz, and supported the team's transition from liquid to hybrid propulsion.</div>
+        <div class="desc">Led the electronics division of the student rocket propulsion team. Specified the sensor suite for the test stand of a planned 750 N engine and built a low-cost data acquisition prototype: a Raspberry Pi reading pressure and temperature sensors, read out in LabVIEW.</div>
         <div class="when">Apr 2024 – Nov 2025<br>Berlin</div>
       </div>
       <div class="xp-row">
         <div class="org">Ucaneo Biotech<span class="sub">Working Student · Engineering</span></div>
-        <div class="desc">Built and characterized a prototype direct air capture system: ultrasonic depth, flow, and current sensing under Arduino control, with a Siemens S7-1200 PLC integrating 8 sensors at 98% data-capture accuracy.</div>
+        <div class="desc">Built and commissioned the fluidic test rig for a direct air capture process: an Arduino controller in C++ running the pumps and reading the sensors, 8 field sensors wired into a Siemens S7-1200 PLC at 98% data-capture accuracy, and the calibration and validation procedures the rig was run against.</div>
         <div class="when">Feb 2025 – Jul 2025<br>Berlin</div>
       </div>
       <div class="xp-row">
         <div class="org">Rocket Factory Augsburg<span class="sub">Pre-Development Intern · Test-Stand Design</span></div>
-        <div class="desc">Designed DN150 piping for the fire suppression and sound suppression systems on launch vehicle test infrastructure: structural calculations to a 3× safety factor and water-hammer transient analysis for full-duration engine burns.</div>
+        <div class="desc">Designed DN150 and DN250 fire and sound suppression piping for the Lampoldshausen test stand in Siemens NX, sized the pipe supports for axial and buckling loads at a 3× safety factor, and revised the layout to cut predicted water-hammer pressure spikes by 40%.</div>
         <div class="when">Nov 2024 – Jan 2025<br>Augsburg</div>
       </div>
       <div class="xp-row">
         <div class="org">Cotmac · Siemens Solutions Partner<span class="sub">IoT Engineer · Robotics</span></div>
-        <div class="desc">Programmed pneumatic control for automated production lines in Siemens TIA Portal, six stations with RFID and photoelectric sensing, and commissioned automation cells at four customer sites.</div>
+        <div class="desc">Programmed pneumatic control for six manufacturing stations in Siemens TIA Portal, with RFID and photoelectric sensing, built their operator screens, and commissioned automation cells at four customer plants through operator handover.</div>
         <div class="when">Dec 2022 – Jan 2024<br>Pune</div>
       </div>
       <div class="xp-row">
         <div class="org">Javis Holdings<span class="sub">Mechanical Engineer</span></div>
-        <div class="desc">Designed the dispensing and purging system for robotic work cells: fluidic circuits with solenoid sequencing and peristaltic pump control, documented in P&amp;IDs and DFM/DFA-driven CAD.</div>
+        <div class="desc">Designed the dispensing and purging system for robotic work cells: fluidic circuits with solenoid sequencing and peristaltic pump control, documented in P&amp;IDs and manufacturing drawings. Assembled the prototype and characterised its valves and pumps for flow rate.</div>
         <div class="when">May 2022 – Dec 2022<br>Singapore</div>
       </div>
     </div>
@@ -688,7 +676,7 @@ footer span{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;color:
           <li>Compressible &amp; incompressible flow</li>
           <li>Transient heat transfer · radiation &amp; convection</li>
           <li>Water-hammer &amp; transient analysis</li>
-          <li>Thermodynamics &amp; turbomachinery</li>
+          <li>Thermodynamics &amp; fluid mechanics</li>
           <li>Control theory · PID, Nyquist, Bode</li>
         </ul>
       </div>
@@ -696,9 +684,10 @@ footer span{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;color:
         <h3>Test &amp; hardware</h3>
         <ul>
           <li>Test-stand design &amp; instrumentation</li>
-          <li>LabVIEW DAQ · 1 kHz multi-channel</li>
+          <li>Data acquisition · Raspberry Pi, LabVIEW</li>
           <li>Hardware-in-the-loop test automation · pytest</li>
-          <li>Sensor calibration &amp; validation</li>
+          <li>Sensor wiring, calibration &amp; validation</li>
+          <li>Commissioning plans · acceptance &amp; abort criteria</li>
           <li>CAD · SolidWorks, Siemens NX</li>
           <li>P&amp;ID · pneumatics &amp; hydraulics</li>
           <li>DFM/DFA · laser-cut, rolled, welded steel</li>
@@ -734,8 +723,8 @@ footer span{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;color:
 <section class="contact" id="contact">
   <div class="wrap">
     <p class="eyebrow rv">Contact</p>
-    <h2 class="rv">Open to propulsion test and systems engineering roles.</h2>
-    <p class="rv">Based in Munich. If you're building engines, test benches, satellites, or the tools around them, I'd like to hear about it.</p>
+    <h2 class="rv">Open to propulsion, test and fluid systems engineering roles.</h2>
+    <p class="rv">Based in Munich. If you're building engines, test benches or the fluid systems that feed them, I'd like to hear about it.</p>
     <div class="cta-row rv">
       <a class="btn solid" href="mailto:floyd.dsouza@tum.de">Email me</a>
       <a class="btn ghost" href="https://www.linkedin.com/in/floyddsouza1009" target="_blank" rel="noopener">LinkedIn ↗</a>
