@@ -234,6 +234,16 @@ figcaption{
 .proj .shots img{width:100%;height:220px;object-fit:cover;border-radius:6px;border:1px solid var(--line);display:block}
 .proj .shots figcaption{font-family:var(--mono);font-size:.62rem;color:var(--tx-2);letter-spacing:.06em;margin-top:6px;text-transform:uppercase}
 @media(max-width:640px){.proj .shots{grid-template-columns:1fr}.proj .shots img{height:200px}}
+.proj .shots.tall{grid-template-columns:1fr 1fr}
+.proj .shots.tall img{height:320px}
+.proj .shots.plot{grid-template-columns:1.6fr 1fr}
+.proj .shots.plot img{height:300px}
+.proj .shots img.contain{object-fit:contain;background:#1F1F1F}
+@media(max-width:640px){
+  .proj .shots.tall,.proj .shots.plot{grid-template-columns:1fr}
+  .proj .shots.tall img{height:240px}
+  .proj .shots.plot img{height:210px}
+}
 
 .proj .repo{font-family:var(--mono);font-size:.68rem;color:var(--tx-2);letter-spacing:.04em}
 .proj h3{font-weight:680;font-stretch:108%;font-size:1.28rem;margin:12px 0 10px;letter-spacing:-.01em;color:#fff}
@@ -589,7 +599,7 @@ footer span{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;color:
   <div class="wrap">
     <div class="sec-head rv">
       <p class="eyebrow">Selected projects</p>
-      <h2>Satellites, drones, a flame-throwing robot, and the tests that keep them honest</h2>
+      <h2>A flame-throwing robot, a satellite controller, a drone that lands itself</h2>
     </div>
     <div class="proj-grid">
       <div class="proj wide rv">
@@ -603,18 +613,26 @@ footer span{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;color:
         <div class="tags"><span>SolidWorks</span><span>Sheet-metal fabrication</span><span>Pump-fed fuel system</span><span>Spark ignition</span><span>Motor and pump drivers</span><span>Test and measurement</span></div>
         <span class="nolink">Designed, assembled and flame-tested</span>
       </div>
-      <a class="proj rv" href="https://github.com/floyd1009/pulse-attitude-control-satellite" target="_blank" rel="noopener">
-        <div class="repo">floyd1009 / pulse-attitude-control-satellite</div>
-        <h3>PULSE ADCS</h3>
-        <p>Detumbling controller for the attitude determination and control system of TU Berlin's PULSE 3P PocketQube, taken down the V-model from requirements to processor-in-the-loop. B-dot law designed in MATLAB (30 to 2 deg/s in 11 minutes in simulation), C code generated with MATLAB Coder and verified software-in-the-loop, then run on an STM32 Nucleo at 100 Hz with a magnetometer on I2C and the magnetorquers driven by PWM. Hardware-in-the-loop in a Helmholtz cage was the planned next step.</p>
-        <div class="tags"><span>ADCS</span><span>B-dot control</span><span>STM32</span><span>MATLAB</span><span>SIL / PIL</span></div>
+      <a class="proj wide rv" href="https://github.com/floyd1009/pulse-attitude-control-satellite" target="_blank" rel="noopener">
+        <div class="repo">floyd1009 / pulse-attitude-control-satellite · TU Berlin · 2025</div>
+        <h3>PULSE PocketQube: detumbling control, from requirements to the processor</h3>
+        <div class="shots plot">
+          <figure><img class="contain" src="img/pulse-detumble.jpg" alt="Simulation plot: the three body-rate components oscillate and decay to zero under the B-dot control law" loading="lazy" width="1400" height="797"><figcaption>Simulated detumbling · body rates under the B-dot law</figcaption></figure>
+          <figure><img src="img/pulse-nucleo.jpg" alt="STM32 Nucleo-L152RE development board, powered over USB" loading="lazy" width="900" height="900"><figcaption>Target board · STM32 Nucleo-L152RE</figcaption></figure>
+        </div>
+        <p>The detumbling controller for the attitude determination and control system of TU Berlin's PULSE 3P PocketQube, taken down the V-model. I derived the requirements with the power and payload teams (rates under 5 deg/s, pointing under 3°, 0.5 W), then wrote the B-dot law in the body frame with quaternion kinematics in MATLAB. Without control the model conserves angular momentum to 0.0012%; with it the satellite slows from 30 to 2 deg/s in 11 minutes, and every run of a 50-run Monte Carlo over initial rate, gain and field strength converged. The C code from MATLAB Coder matches the model bit for bit in 2.4 KB of RAM, and runs processor-in-the-loop on an STM32 Nucleo-L152RE at 100 Hz with a magnetometer on I2C and the magnetorquer drivers on PWM. Hardware-in-the-loop in a Helmholtz cage was the planned next stage and was not run.</p>
+        <div class="tags"><span>ADCS</span><span>B-dot control</span><span>MATLAB · MATLAB Coder</span><span>C on STM32</span><span>Monte Carlo</span><span>MiL / SiL / PiL</span></div>
         <span class="link">View repository →</span>
       </a>
-      <div class="proj rv">
-        <div class="repo">European Rover Challenge · 2024–2025</div>
-        <h3>Autonomous drone navigation</h3>
-        <p>Autonomy for the TU Berlin drone team at the European Rover Challenge. I designed the mount for a Raspberry Pi 4 companion computer on the team's airframe, inside the thrust-to-weight budget, wired it to the Pixhawk flight controller, and wrote the autonomy stack in Python: PyMAVLink telemetry with automated failsafes and ArUco marker detection at 30 FPS for precision landing inside 1 m² sectors. Then I ran the autonomous flight tests.</p>
-        <div class="tags"><span>Python</span><span>PyMAVLink</span><span>PX4 / ArduPilot</span><span>Computer vision</span></div>
+      <div class="proj wide rv">
+        <div class="repo">TU Berlin drone team · European Rover Challenge · 2024–2025</div>
+        <h3>Autonomous drone navigation: companion computer, autonomy stack, flight tests</h3>
+        <div class="shots tall">
+          <figure><img src="img/drone-integration.jpg" alt="Close view of the drone: companion computer with heat sink, GPS units, antennas and wiring on a carbon-fibre frame" loading="lazy" width="768" height="496"><figcaption>Companion computer wired into the airframe</figcaption></figure>
+          <figure><img src="img/drone-camera.jpg" alt="Front view of the drone with the Raspberry Pi camera on its mount plate above the frame" loading="lazy" width="768" height="496"><figcaption>Raspberry Pi camera on the mount I designed</figcaption></figure>
+        </div>
+        <p>The team's airframe already existed: a 225 mm carbon-fibre quadcopter of 960 g with a Pixhawk flight controller running ArduPilot. My part was everything that makes it fly itself. I designed the mount for a Raspberry Pi 4 companion computer and its camera inside the thrust-to-weight budget and wired it to the flight controller. I wrote the autonomy stack in Python: OpenCV detection of ArUco markers at 30 FPS, a five-state navigation machine (initialise, search, approach, hover, land), and position targets sent to the Pixhawk over MAVLink for precision landing inside 1 m² sectors. Failsafes cover low battery, a lost link and manual override from the remote. Then I ran the autonomous flight tests.</p>
+        <div class="tags"><span>Python</span><span>OpenCV · ArUco</span><span>PyMAVLink</span><span>Pixhawk · ArduPilot</span><span>Raspberry Pi 4</span><span>Flight testing</span></div>
         <span class="nolink">Flight-tested · EU A1/A3 remote pilot certificate</span>
       </div>
       <a class="proj rv" href="https://github.com/floyd1009/space-electronics-system" target="_blank" rel="noopener">
